@@ -18,6 +18,10 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     public bool enableMouse = false;
     public float moveSpd = 50, moveMax = 15, rotSpd = 50, jumpForce = 25;
 
+    bool footstepAlternate = false; //alternates footstep sounds
+    public AudioSource footstep1; 
+    public AudioSource footstep2;
+
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.name.ToLower() == "floor")
@@ -90,6 +94,16 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
 
         if (!move) return;
         pos = new Vector3(ctx.ReadValue<Vector2>().x, 0, ctx.ReadValue<Vector2>().y);
+
+        //Footsteps (this is jank, programmer fix pls) [just needs to be put in a proper spot]
+        if (!footstep1.isPlaying && !footstep2.isPlaying) {
+            if (!footstepAlternate)
+                footstep1.Play();
+            else 
+                footstep2.Play();
+            footstepAlternate = !footstepAlternate;
+        }
+            
     }
 
     Vector3 rot, rotVec;
