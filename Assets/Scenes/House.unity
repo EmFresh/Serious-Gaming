@@ -3254,6 +3254,7 @@ GameObject:
   - component: {fileID: 438219749}
   - component: {fileID: 438219755}
   - component: {fileID: 438219754}
+  - component: {fileID: 438219756}
   - component: {fileID: 438219753}
   - component: {fileID: 438219752}
   - component: {fileID: 438219751}
@@ -3395,6 +3396,23 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &438219756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 438219748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9071b8308bbe6c0418fc11bd3b0f105a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableFadeIn: 1
+  enableAutoFadeOut: 0
+  delay: 0
+  fadeoutTime: 1
+  fadeinTime: 1
 --- !u!43 &456982271
 Mesh:
   m_ObjectHideFlags: 0
@@ -6928,6 +6946,24 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &952011415 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1081351934105273989, guid: e60ec00c6d8dc124781d498803483561, type: 3}
+  m_PrefabInstance: {fileID: 1144122900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &952011418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952011415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e279427997ff4774bb4ce595d291fd48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  darkness: {fileID: 438219756}
 --- !u!43 &959081682
 Mesh:
   m_ObjectHideFlags: 0
@@ -12470,6 +12506,10 @@ PrefabInstance:
       propertyPath: moveSpd
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: -5906143876913061877, guid: d6504f88ccfa58e4ab4bae3161e0a204, type: 3}
+      propertyPath: darkness
+      value: 
+      objectReference: {fileID: 438219756}
     - target: {fileID: -5906143876913061877, guid: d6504f88ccfa58e4ab4bae3161e0a204, type: 3}
       propertyPath: jumpForce
       value: 0

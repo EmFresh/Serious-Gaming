@@ -41,6 +41,14 @@ public class @MainControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Panic"",
+                    ""type"": ""Button"",
+                    ""id"": ""e8140cfc-4787-4a4d-b7fd-50497efa982e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -296,6 +304,17 @@ public class @MainControls : IInputActionCollection, IDisposable
                     ""action"": ""Rotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76dfebc9-ebb8-4991-a701-279bce65ade7"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Panic"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -307,6 +326,7 @@ public class @MainControls : IInputActionCollection, IDisposable
         m_PlayMode_Movement = m_PlayMode.FindAction("Movement", throwIfNotFound: true);
         m_PlayMode_Rotation = m_PlayMode.FindAction("Rotation", throwIfNotFound: true);
         m_PlayMode_Jump = m_PlayMode.FindAction("Jump", throwIfNotFound: true);
+        m_PlayMode_Panic = m_PlayMode.FindAction("Panic", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -359,6 +379,7 @@ public class @MainControls : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayMode_Movement;
     private readonly InputAction m_PlayMode_Rotation;
     private readonly InputAction m_PlayMode_Jump;
+    private readonly InputAction m_PlayMode_Panic;
     public struct PlayModeActions
     {
         private @MainControls m_Wrapper;
@@ -366,6 +387,7 @@ public class @MainControls : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_PlayMode_Movement;
         public InputAction @Rotation => m_Wrapper.m_PlayMode_Rotation;
         public InputAction @Jump => m_Wrapper.m_PlayMode_Jump;
+        public InputAction @Panic => m_Wrapper.m_PlayMode_Panic;
         public InputActionMap Get() { return m_Wrapper.m_PlayMode; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -384,6 +406,9 @@ public class @MainControls : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayModeActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayModeActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayModeActionsCallbackInterface.OnJump;
+                @Panic.started -= m_Wrapper.m_PlayModeActionsCallbackInterface.OnPanic;
+                @Panic.performed -= m_Wrapper.m_PlayModeActionsCallbackInterface.OnPanic;
+                @Panic.canceled -= m_Wrapper.m_PlayModeActionsCallbackInterface.OnPanic;
             }
             m_Wrapper.m_PlayModeActionsCallbackInterface = instance;
             if (instance != null)
@@ -397,6 +422,9 @@ public class @MainControls : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Panic.started += instance.OnPanic;
+                @Panic.performed += instance.OnPanic;
+                @Panic.canceled += instance.OnPanic;
             }
         }
     }
@@ -406,5 +434,6 @@ public class @MainControls : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnRotation(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnPanic(InputAction.CallbackContext context);
     }
 }

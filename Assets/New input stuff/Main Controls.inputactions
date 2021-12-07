@@ -28,6 +28,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Panic",
+                    "type": "Button",
+                    "id": "e8140cfc-4787-4a4d-b7fd-50497efa982e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -281,6 +289,17 @@
                     "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Rotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76dfebc9-ebb8-4991-a701-279bce65ade7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Panic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

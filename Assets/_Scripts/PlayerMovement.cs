@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     Vector3 respawnPoint = Vector3.zero;
 
     bool move, rotate;
+    public FadeInOut darkness;
     public bool enableMouse = false;
     public float moveSpd = 50, moveMax = 15, rotSpd = 50, jumpForce = 25;
 
@@ -147,4 +148,9 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     }
     void OnDisable() =>
         play.Disable();
+
+    public void OnPanic(InputAction.CallbackContext context)
+    {
+        darkness.fadeOutInvoke();
+    }
 }
