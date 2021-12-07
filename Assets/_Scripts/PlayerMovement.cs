@@ -15,12 +15,9 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     Vector3 respawnPoint = Vector3.zero;
 
     bool move, rotate;
+    public FadeInOut darkness;
     public bool enableMouse = false;
     public float moveSpd = 50, moveMax = 15, rotSpd = 50, jumpForce = 25;
-
-    bool footstepAlternate = false; //alternates footstep sounds
-    public AudioSource footstep1; 
-    public AudioSource footstep2;
 
     private void OnCollisionEnter(Collision other)
     {
@@ -81,7 +78,9 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
 
         if (rotate)
         {
-            rot += rotVec * Time.deltaTime * rotSpd;
+
+
+            rot += (Vector3)math.lerp(Vector3.zero, rotVec, Time.deltaTime) * rotSpd;
             transform.GetChild(0).rotation = Quaternion.Euler(rot);
             transform.rotation = Quaternion.Euler(rot * new float3(0, 1, 0));
         }
@@ -90,29 +89,37 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     Vector3 pos;
     public void OnMovement(InputAction.CallbackContext ctx)
     {
-        move = !ctx.canceled;
+        move = ctx.performed;
 
         if (!move) return;
         pos = new Vector3(ctx.ReadValue<Vector2>().x, 0, ctx.ReadValue<Vector2>().y);
-
-        //Footsteps (this is jank, programmer fix pls) [just needs to be put in a proper spot]
-        if (!footstep1.isPlaying && !footstep2.isPlaying) {
-            if (!footstepAlternate)
-                footstep1.Play();
-            else 
-                footstep2.Play();
-            footstepAlternate = !footstepAlternate;
-        }
-            
     }
 
     Vector3 rot, rotVec;
     public void OnRotation(InputAction.CallbackContext ctx)
     {
-        rotate = !ctx.canceled;
+        rotate = ctx.performed;
         if (!rotate) return;
-        print(ctx.control.device.displayName);
+        //   print(ctx.control.device.displayName);
+
+
         rotVec = new Vector3(-ctx.ReadValue<Vector2>().y, ctx.ReadValue<Vector2>().x, 0);
+
+        if (enableMouse)
+        {
+            //  Mouse.current.WarpCursorPosition(new Vector2(0, 0));
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            print(ctx.control.device.displayName);
+            if (ctx.control.device.displayName.ToLower().Contains("mouse"))
+                rotVec = Vector3.zero;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        //      Mouse.current
         // print(ctx.ReadValue<Vector2>());
 
     }
@@ -141,4 +148,9 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     }
     void OnDisable() =>
         play.Disable();
+
+    public void OnPanic(InputAction.CallbackContext context)
+    {
+        darkness.fadeOutInvoke();
+    }
 }
