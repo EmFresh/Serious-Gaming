@@ -76,13 +76,17 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     void Update()
     {
 
-        if (rotate)
+        // if (rotate)
         {
+            rot = (Vector3)math.lerp(Vector3.zero, rotVec, Time.deltaTime) * rotSpd;
+            // transform.rotation = Quaternion.Euler(rot * new float3(0, 1, 0));
+            transform.Rotate(new float3(0, 1, 0), rot.y);
+            transform.GetChild(0).Rotate(rot.x, rot.y, 0);
 
-
-            rot += (Vector3)math.lerp(Vector3.zero, rotVec, Time.deltaTime) * rotSpd;
-            transform.GetChild(0).rotation = Quaternion.Euler(rot);
-            transform.rotation = Quaternion.Euler(rot * new float3(0, 1, 0));
+            transform.GetChild(0).rotation =
+             Quaternion.Euler(
+                 transform.GetChild(0).rotation.eulerAngles.x,
+             transform.GetChild(0).rotation.eulerAngles.y, 0);
         }
     }
 
@@ -99,12 +103,12 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
     public void OnRotation(InputAction.CallbackContext ctx)
     {
         rotate = ctx.performed;
-        if (!rotate) return;
         //   print(ctx.control.device.displayName);
 
 
-        rotVec = new Vector3(-ctx.ReadValue<Vector2>().y, ctx.ReadValue<Vector2>().x, 0);
+        rotVec = new Vector3(-ctx.ReadValue<Vector2>().y, ctx.ReadValue<Vector2>().x, 0) * (ctx.canceled ? 0 : 1);
 
+        if (!rotate) return;
         if (enableMouse)
         {
             //  Mouse.current.WarpCursorPosition(new Vector2(0, 0));
@@ -113,7 +117,7 @@ public class PlayerMovement : MonoBehaviour, IPlayModeActions
         }
         else
         {
-            print(ctx.control.device.displayName);
+            // print(ctx.control.device.displayName);
             if (ctx.control.device.displayName.ToLower().Contains("mouse"))
                 rotVec = Vector3.zero;
             Cursor.lockState = CursorLockMode.None;
